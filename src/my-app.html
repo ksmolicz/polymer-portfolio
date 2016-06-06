@@ -74,11 +74,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <!-- Configure Firebase app: -->
     <firebase-app
-      name="portfolio"
-      apiKey: "AIzaSyDUrgqdACAIrYqUYr-KLnbJBS_pPUrpBoY",
-      authDomain: "portfolio-8d851.firebaseapp.com",
-      databaseURL: "https://portfolio-8d851.firebaseio.com",>
+        api-key="AIzaSyDUrgqdACAIrYqUYr-KLnbJBS_pPUrpBoY"
+        auth-domain="portfolio-8d851.firebaseapp.com"
+        database-url="https://portfolio-8d851.firebaseio.com"
+        name="portfolio">
     </firebase-app>
+
+    <!-- <firebase-document
+        app-name="portfolio"
+        path="/navigation"
+        data="{{data}}">
+    </firebase-document> -->
+
+    <firebase-query
+        id="query"
+        app-name="portfolio"
+        path="/navigation"
+        data="{{navigation}}">
+    </firebase-query>
 
     <app-location route="{{route}}"></app-location>
     <app-route
@@ -92,6 +105,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <!-- Drawer content -->
       <app-drawer>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+          <template is="dom-repeat" items="[[navigation]]" as="menu">
+            <p>test [[menu.name]]</p>
+          </template>
           <a name="view1" href="/view1">
             <iron-icon icon="social:person"></iron-icon>
             <span style='opacity: 0.87'>About</span>
@@ -109,7 +125,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-header condenses reveals effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-            <div title><span class="ligther">Test</span>App</div>
+            <div title><span class="ligther"><p>{{jsonStringify(data)}}</p></div>
             <!-- <paper-tabs>
               <paper-tab><a href="/view1" class="link" tabindex="-1">TAB ONE</a></paper-tab>
               <paper-tab><a href="/view2" class="link" tabindex="-1">TAB ONE</a></paper-tab>
@@ -137,7 +153,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'my-app',
 
       properties: {
-
         page: {
           type: String,
           reflectToAttribute: true,
@@ -158,6 +173,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // load page import on demand.
         this.importHref(
           this.resolveUrl('my-' + page + '.html'), null, null, true);
+      },
+
+      jsonStringify: function(data) {
+        return JSON.stringify(data);
       }
 
     });
