@@ -24,8 +24,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="../bower_components/iron-icons/image-icons.html">
+<link rel="import" href="../bower_components/iron-icons/maps-icons.html">
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
-<link rel="import" href="my-icons.html">
 
 <dom-module id="my-app">
 
@@ -61,14 +61,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding-right: 32px;
         opacity: 0.54;
       }
-      /*.drawer-list a.iron-selected {
-        color: black;
-        font-weight: bold;
+      .drawer-list .drawer-item-name{
+        opacity: 0.87;
+        text-transform: capitalize;
       }
-      .drawer-list a.subroute {
-        padding-left: 32px;
-      }*/
-
 
     </style>
 
@@ -79,12 +75,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         database-url="https://portfolio-8d851.firebaseio.com"
         name="portfolio">
     </firebase-app>
-
-    <!-- <firebase-document
-        app-name="portfolio"
-        path="/navigation"
-        data="{{data}}">
-    </firebase-document> -->
 
     <firebase-query
         id="query"
@@ -105,17 +95,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <!-- Drawer content -->
       <app-drawer>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <template is="dom-repeat" items="[[navigation]]" as="menu">
-            <p>test [[menu.name]]</p>
-          </template>
-          <a name="view1" href="/view1">
-            <iron-icon icon="social:person"></iron-icon>
-            <span style='opacity: 0.87'>About</span>
-          </a>
-          <a name="view2" href="/view2">
-            <iron-icon icon="image:audiotrack"></iron-icon>
-            <span style='opacity: 0.87'>Music</span>
-          </a>
+          <div>
+            <template is="dom-repeat" items="[[navigation]]" as="menu">
+              <a name="[[menu.name]]" href="/[[menu.name]]">
+                <iron-icon icon="[[menu.icon]]"></iron-icon>
+                <span class="drawer-item-name">[[menu.name]]</span>
+              </a>
+            </template>
+          </div>
         </iron-selector>
       </app-drawer>
 
@@ -125,12 +112,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-header condenses reveals effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-            <div title><span class="ligther"><p>{{jsonStringify(data)}}</p></div>
-            <!-- <paper-tabs>
-              <paper-tab><a href="/view1" class="link" tabindex="-1">TAB ONE</a></paper-tab>
-              <paper-tab><a href="/view2" class="link" tabindex="-1">TAB ONE</a></paper-tab>
-              <paper-tab><a href="/view3" class="link" tabindex="-1">TAB ONE</a></paper-tab>
-            </paper-tabs> -->
+            <div title>testApp</div>
           </app-toolbar>
         </app-header>
 
@@ -173,10 +155,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // load page import on demand.
         this.importHref(
           this.resolveUrl('my-' + page + '.html'), null, null, true);
-      },
-
-      jsonStringify: function(data) {
-        return JSON.stringify(data);
       }
 
     });
