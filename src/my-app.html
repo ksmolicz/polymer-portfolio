@@ -21,6 +21,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/neon-animation/neon-animation.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="../bower_components/iron-icons/image-icons.html">
@@ -48,7 +50,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .drawer-list {
-        margin: 0 20px;
+        margin: 8px 0;
       }
       .drawer-list a {
         display: block;
@@ -61,8 +63,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding-right: 32px;
         opacity: 0.54;
       }
-      .drawer-list .drawer-item-name{
-        opacity: 0.87;
+      .drawer-list .paper-font-menu{
         text-transform: capitalize;
       }
 
@@ -94,16 +95,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <!-- Drawer content -->
       <app-drawer>
-        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <div>
-            <template is="dom-repeat" items="[[navigation]]" as="menu">
-              <a name="[[menu.name]]" href="/[[menu.name]]">
-                <iron-icon icon="[[menu.icon]]"></iron-icon>
-                <span class="drawer-item-name">[[menu.name]]</span>
-              </a>
-            </template>
+        <paper-toolbar></paper-toolbar>
+
+          <div class="drawer-list">
+            <iron-selector selected="[[page]]" attr-for-selected="name"  role="navigation">
+              <template is="dom-repeat" items="[[navigation]]" as="menu">
+                <a name="[[menu.name]]" href="/[[menu.name]]">
+                  <iron-icon icon="[[menu.icon]]"></iron-icon>
+                  <span class="paper-font-menu">[[menu.name]]</span>
+                </a>
+              </template>
+            </iron-selector>
           </div>
-        </iron-selector>
+
       </app-drawer>
 
       <!-- Main content -->
@@ -117,7 +121,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </app-header>
 
         <neon-animated-pages role="main" selected="[[page]]" attr-for-selected="name" entry-animation="fade-in-animation" exit-animation="fade-out-animation">
-          <my-view1 name="view1"></my-view1>
+          <music name="view1"></music>
           <my-view2 name="view2"></my-view2>
           <my-view3 name="view3"></my-view3>
         </neon-animated-pages>
@@ -154,7 +158,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _pageChanged: function(page) {
         // load page import on demand.
         this.importHref(
-          this.resolveUrl('my-' + page + '.html'), null, null, true);
+          this.resolveUrl(page + '.html'), null, null, true);
       }
 
     });
