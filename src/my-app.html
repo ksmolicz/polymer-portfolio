@@ -21,6 +21,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/neon-animation/neon-animation.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="../bower_components/iron-icons/image-icons.html">
@@ -39,6 +41,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         --app-secondary-color: black;
       }
 
+      .circle {
+        display: inline-block;
+        height: 64px;
+        width: 64px;
+        border-radius: 50%;
+        background: #ddd;
+        line-height: 64px;
+        font-size: 30px;
+        color: #555;
+        text-align: center;
+      }
+
       app-header {
         background-color: var(--app-primary-color);
         color: #fff;
@@ -48,7 +62,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .drawer-list {
-        margin: 0 20px;
+        margin: 16px 0;
       }
       .drawer-list a {
         display: block;
@@ -61,7 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding-right: 32px;
         opacity: 0.54;
       }
-      .drawer-list .drawer-item-name{
+      .drawer-list .paper-font-menu{
         opacity: 0.87;
         text-transform: capitalize;
       }
@@ -94,17 +108,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <!-- Drawer content -->
       <app-drawer>
-
-        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <div>
+        <paper-toolbar class="tall">
+          <div class="circle"></div>
+          <div class="bottom">
+            <div class="primary">Krzysztof Smolicz</div>
+            <div class="secondary">Krzysztof.Smolicz@yahoo.com</div>
+          </div>
+        </paper-toolbar>
+        <div class="drawer-list">
+          <iron-selector selected="[[page]]" attr-for-selected="name" role="navigation">
             <template is="dom-repeat" items="[[navigation]]" as="menu">
               <a name="[[menu.name]]" href="/[[menu.name]]">
                 <iron-icon icon="[[menu.icon]]"></iron-icon>
-                <span class="drawer-item-name">[[menu.name]]</span>
+                <span class="paper-font-menu">[[menu.name]]</span>
               </a>
             </template>
-          </div>
-        </iron-selector>
+          </iron-selector>
+        </div>
       </app-drawer>
 
       <!-- Main content -->
