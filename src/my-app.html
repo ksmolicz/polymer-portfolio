@@ -22,12 +22,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/neon-animation/neon-animation.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
-<link rel="import" href="../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="../bower_components/iron-icons/image-icons.html">
 <link rel="import" href="../bower_components/iron-icons/maps-icons.html">
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../bower_components/paper-styles/paper-styles.html">
 
 <dom-module id="my-app">
 
@@ -42,15 +42,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .circle {
-        display: inline-block;
-        height: 64px;
-        width: 64px;
+        height: 96px;
+        width: 96px;
         border-radius: 50%;
-        background: #ddd;
-        line-height: 64px;
-        font-size: 30px;
-        color: #555;
-        text-align: center;
+        background-color: red
       }
 
       app-header {
@@ -78,6 +73,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .drawer-list .paper-font-menu{
         opacity: 0.87;
         text-transform: capitalize;
+      }
+      .iron-selected {
+        background: #eee;
       }
 
     </style>
@@ -109,7 +107,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <!-- Drawer content -->
       <app-drawer>
         <paper-toolbar class="tall">
-          <div class="circle"></div>
+          <img class="circle" src="https://firebasestorage.googleapis.com/v0/b/portfolio-8d851.appspot.com/o/portfolio-image.jpg?alt=media&token=a5134771-a9d2-4a9e-b0e3-c899d1b7a90c" alt="portfolio-image">
           <div class="bottom">
             <div class="primary">Krzysztof Smolicz</div>
             <div class="secondary">Krzysztof.Smolicz@yahoo.com</div>
