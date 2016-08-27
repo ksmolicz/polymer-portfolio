@@ -1,0 +1,29 @@
+<dom-module id="shared-styles">
+  <template>
+    <style>
+      :host{
+        --text-primary: rgba(0, 0, 0, 0.87);
+        --text-secondary: rgba(0,0,0,0.54);
+      }
+      paper-card{
+        margin: 8px
+      }
+      paper-card h1 {
+        margin: 0;
+        font-weight: normal;
+        color: var(--text-primary);
+      }
+      paper-card h2 {
+        margin: 0;
+        font-weight: normal;
+        font-size: 1.3em;
+        color: var(--text-secondary);
+      }
+      .divider {
+        background-color: rgba(0,0,0,0.12);
+        height: 1px;
+        margin: 16px 0 16px 0;
+      }
+    </style>
+  </template>
+</dom-module>

@@ -35,34 +35,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-styles/typography.html">
 <link rel="import" href="../bower_components/paper-styles/demo-pages.html">
 
-
 <dom-module id="my-app">
 
   <template>
 
+    <style include="shared-styles"></style>
     <style>
 
       :host {
         display: block;
-        --app-primary-color: #4285f4;
-        --app-secondary-color: black;
+        --app-primary-color: black;
       }
-
       .circle {
-        height: 96px;
-        width: 96px;
+        height: 80px;
+        width: 80px;
         border-radius: 50%;
-        background-color: red
+        top: 24px;
+        position: absolute;
       }
-
       app-header {
-        background-color: var(--app-primary-color);
         color: #fff;
+      }
+      app-header-layout{
+        background: url('./images/wallpaper.jpg');
+        background-size: 100% 50%;
+        background-repeat: no-repeat;
       }
       app-header paper-icon-button {
         --paper-icon-button-ink-color: white;
       }
-
       .drawer-list {
         margin: 16px 0;
       }
@@ -71,18 +72,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 0 16px;
         line-height: 48px;
         text-decoration: none;
-        color: var(--app-secondary-color);
+        color: var(--app-primary-color);
       }
       .drawer-list a iron-icon{
         padding-right: 32px;
         opacity: 0.54;
       }
+      .drawer-list .iron-selected iron-icon{
+        opacity: 1;
+      }
       .drawer-list .paper-font-menu{
         opacity: 0.87;
         text-transform: capitalize;
       }
+      .drawer-list .iron-selected .paper-font-menu{
+        opacity: 1;
+      }
       .iron-selected {
         background: #eee;
+      }
+      paper-toolbar {
+        background: var(--app-primary-color) url("./images/wallpaper.jpg") no-repeat;
+        background-size: cover;
+      }
+      .capitalize {
+        text-transform: capitalize;
       }
 
     </style>
@@ -102,6 +116,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         data="{{navigation}}">
     </firebase-query>
 
+    <firebase-document
+        id="query"
+        app-name="portfolio"
+        path="/contact"
+        data="{{contact}}">
+    </firebase-document>
+
     <app-location route="{{route}}"></app-location>
     <app-route
         route="{{route}}"
@@ -114,10 +135,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <!-- Drawer content -->
       <app-drawer>
         <paper-toolbar class="tall">
-          <img class="circle" src="https://firebasestorage.googleapis.com/v0/b/portfolio-8d851.appspot.com/o/portfolio-image.jpg?alt=media&token=a5134771-a9d2-4a9e-b0e3-c899d1b7a90c" alt="portfolio-image">
+          <img class="circle" src="./images/portfolio-image.jpg" alt="portfolio-image">
           <div class="bottom">
-            <div class="primary">Krzysztof Smolicz</div>
-            <div class="secondary">Krzysztof.Smolicz@yahoo.com</div>
+            <p>[[contact.email]]</p>
           </div>
         </paper-toolbar>
         <div class="drawer-list">
@@ -135,10 +155,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
 
-        <app-header condenses reveals effects="waterfall">
+        <app-header>
           <app-toolbar>
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-            <div title>testApp</div>
+            <div title class="capitalize">[[page]]</div>
           </app-toolbar>
         </app-header>
 
