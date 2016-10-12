@@ -1,0 +1,58 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-card/paper-card.html">
+<link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="/bower_components/iron-grid/iron-grid.html">
+<link rel="import" href="/bower_components/iron-meta/iron-meta.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="under-construction">
+
+  <template>
+
+    <style include="shared-styles"></style>
+    <style>
+      :host {
+        display: block;
+      }
+      iframe{
+        pointer-events:none;
+      }
+    </style>
+
+    <div class="layout horizontal center-justified">
+      <div class="vertical layout container flex">
+        <paper-card>
+          <iron-grid xs-max-width="0" s-max-width="[[smallBreakpoint]]">
+            <img src="../images/under-construction.gif" class="img-responsive s12 m6 no-padding" alt="Under Construction Gif">
+            <div class="s12 m6 no-padding">
+              <div class="card-content flex">
+                <h1>This site is under construction</h1>
+              </div>
+            </div>
+          </iron-grid>
+        </paper-card>
+      </div>
+    </div>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'under-construction',
+
+      properties: {
+        smallBreakpoint: {
+          type: Number,
+          value: new Polymer.IronMetaQuery({key: 'smallBreakpoint'}).value
+        }
+      },
+
+      
+
+    });
+
+  </script>
+
+</dom-module>

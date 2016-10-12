@@ -4,25 +4,54 @@
       :host{
         --text-primary: rgba(0, 0, 0, 0.87);
         --text-secondary: rgba(0,0,0,0.54);
+
+        --app-primary: #1976D2;
+        --app-secondary: #2196F3;
+      }
+      h1, h2, h3, p{
+        font-weight: normal;
+      }
+      .container{
+        padding: 8px;
+        max-width: 960px;
+      }
+      .text-secondary{
+        color: var(--text-secondary);
       }
       paper-card{
-        margin: 8px
+        margin-bottom: 16px
       }
       paper-card h1 {
         margin: 0;
-        font-weight: normal;
+        font-size: 1.6em;
+        line-height: 1.4em;
         color: var(--text-primary);
       }
       paper-card h2 {
         margin: 0;
-        font-weight: normal;
         font-size: 1.3em;
+        line-height: 1.3em;
         color: var(--text-secondary);
+      }
+      paper-card h3{
+        margin: 16px 0;
+        text-transform: uppercase;
+        color: var(--app-primary);
+      }
+      paper-card p{
+        margin: 16px 0;
       }
       .divider {
         background-color: rgba(0,0,0,0.12);
         height: 1px;
         margin: 16px 0 16px 0;
+      }
+      .img-responsive{
+        max-width: 100%;
+        height: 100%;
+      }
+      .no-padding{
+        padding: 0 !important;
       }
     </style>
   </template>

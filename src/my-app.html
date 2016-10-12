@@ -1,12 +1,3 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
@@ -26,9 +17,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="../bower_components/iron-icons/image-icons.html">
 <link rel="import" href="../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../bower_components/iron-meta/iron-meta.html">
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
-<link rel="import" href="../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 
+<link rel="import" href="../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../bower_components/paper-styles/color.html">
 <link rel="import" href="../bower_components/paper-styles/default-theme.html">
 <link rel="import" href="../bower_components/paper-styles/shadow.html">
@@ -44,7 +37,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       :host {
         display: block;
-        --app-primary-color: black;
+        --text-primary: rgba(0, 0, 0, 0.87);
+        --text-secondary: rgba(0,0,0,0.54);
+
+        --app-primary: #1976D2;
+        --app-secondary: #2196F3;
+
+        --mobile-breakpoint: 640px;
       }
       .circle {
         height: 80px;
@@ -56,10 +55,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app-header {
         color: #fff;
       }
-      app-header-layout{
+      .header-background{
         background: url('./images/wallpaper.jpg');
-        background-size: 100% 50%;
+        background-size: cover;
         background-repeat: no-repeat;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 30%;
       }
       app-header paper-icon-button {
         --paper-icon-button-ink-color: white;
@@ -72,7 +76,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 0 16px;
         line-height: 48px;
         text-decoration: none;
-        color: var(--app-primary-color);
+        color: var(--text-primary);
       }
       .drawer-list a iron-icon{
         padding-right: 32px;
@@ -88,17 +92,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .drawer-list .iron-selected .paper-font-menu{
         opacity: 1;
       }
-      .iron-selected {
+      a.iron-selected{
         background: #eee;
-      }
-      paper-toolbar {
-        background: var(--app-primary-color) url("./images/wallpaper.jpg") no-repeat;
-        background-size: cover;
       }
       .capitalize {
         text-transform: capitalize;
       }
-
+      paper-toolbar{
+        background: url('/src/images/wallpaper.jpg');
+        background-size: cover;
+      }
+      paper-tabs{
+        --paper-tabs-selection-bar-color: var(--app-primary);
+      }
+      paper-tab{
+        background-color: transparent !important;
+        --paper-tab-ink: var(--app-secondary);
+      }
+      paper-tab[link] a {
+        @apply(--layout-horizontal);
+        @apply(--layout-center-center);
+        color: #fff;
+        text-decoration: none;
+        padding: 0 12px;
+        text-transform: capitalize;
+      }
+      @media (min-width: 641px) {
+        neon-animated-pages{
+          margin-top: 48px
+        }
+        app-header{
+          padding-right: 48px;
+        }
+      }
     </style>
 
     <!-- Configure Firebase app: -->
@@ -130,10 +156,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
 
-    <app-drawer-layout fullbleed>
+    <app-drawer-layout fullbleed force-narrow>
 
       <!-- Drawer content -->
-      <app-drawer>
+      <app-drawer swipe-open="[[isMobile]]">
         <paper-toolbar class="tall">
           <img class="circle" src="./images/portfolio-image.jpg" alt="portfolio-image">
           <div class="bottom">
@@ -157,10 +183,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <app-header>
           <app-toolbar>
-            <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+            <paper-icon-button icon="menu" drawer-toggle hidden$="[[!isMobile]]"></paper-icon-button>
             <div title class="capitalize">[[page]]</div>
+            <paper-tabs selected="[[page]]" attr-for-selected="name" hidden$="[[isMobile]]">
+              <template is="dom-repeat" items="[[navigation]]" as="menu">
+                  <paper-tab name="[[menu.name]]" link>
+                    <a href="/[[menu.name]]" tabindex="-1">[[menu.name]]</a>
+                  </paper-tab>
+              </template>
+            </paper-tabs>
           </app-toolbar>
         </app-header>
+
+        <div class="header-background"></div>
 
         <neon-animated-pages role="main" selected="[[page]]" attr-for-selected="name" entry-animation="fade-in-animation" exit-animation="fade-out-animation">
           <about-view name="about"></about-view>
@@ -171,6 +206,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </app-header-layout>
 
     </app-drawer-layout>
+
+    <iron-media-query query="(max-width: 640px)" query-matches="{{isMobile}}"></iron-media-query>
+    <iron-meta key="smallBreakpoint" value="607"></iron-meta>
+    <iron-meta key="mediumBreakpoint" value="927"></iron-meta>
 
   </template>
 
@@ -186,7 +225,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           reflectToAttribute: true,
           observer: '_pageChanged'
         },
-
       },
 
       observers: [

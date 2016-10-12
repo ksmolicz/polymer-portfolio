@@ -1,16 +1,9 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/paper-card/paper-card.html">
 <link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="/bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="/bower_components/iron-grid/iron-grid.html">
+<link rel="import" href="/bower_components/iron-meta/iron-meta.html">
 <link rel="import" href="../shared-styles.html">
 
 <dom-module id="about-view">
@@ -19,7 +12,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <style include="shared-styles"></style>
     <style>
-
+      .card-content p .label{
+        text-transform: uppercase;
+        color: var(--text-primary);
+      }
+      .social-bar{
+        background-color: var(--app-primary);
+        padding: 16px 8px;
+      }
+      .social-bar a{
+        margin: 0 8px;
+      }
+      .skill{
+        margin-bottom: 16px
+      }
+      .skill p{
+        margin-bottom: 0;
+      }
+      h1{
+        margin: 16px auto;
+        color: var(--text-primary);
+      }
+      paper-progress{
+        width: 100%;
+        --paper-progress-active-color: var(--app-primary);
+      }
+      #skills-card .card-content{
+        padding: 16px 4px;
+      }
     </style>
 
     <firebase-document
@@ -29,25 +49,115 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         data="{{contact}}">
     </firebase-document>
 
-    <div class="horizontal layout">
-      <paper-card class="flex" image="../src/images/portfolio-image.jpg">
-        <div class="card-content">
-          <h1>Krzysztof Smolicz</h1>
-          <h2>Front-End Developer</h2>
-          <div class="divider"></div>
-          <p>[[contact.email]]</p>
-        </div>
-      </paper-card>
+    <firebase-query
+        id="query"
+        app-name="portfolio"
+        path="/skills"
+        data="{{skills}}">
+    </firebase-query>
+
+    <firebase-query
+        id="query"
+        app-name="portfolio"
+        path="/work"
+        data="{{positions}}">
+    </firebase-query>
+
+    <div class="layout horizontal center-justified">
+      <div class="vertical layout container">
+        <paper-card>
+          <iron-grid xs-max-width="0" s-max-width="[[smallBreakpoint]]">
+            <img src="../images/portfolio-image.jpg" class="img-responsive s12 m6 no-padding" alt="portfolio-image">
+            <div class="s12 m6 no-padding">
+              <div class="card-content flex">
+                <h1>Krzysztof Smolicz</h1>
+                <h2>Front-End Developer</h2>
+                <div class="divider"></div>
+                <p>
+                  <span class="label">age</span><br>
+                  <span class="text-secondary">[[_calculateAge()]]</span>
+                </p>
+                <p>
+                  <span class="label">e-mail</span><br>
+                  <span class="text-secondary">[[contact.email]]</span>
+                </p>
+                <p>
+                  <span class="label">phone</span><br>
+                  <span class="text-secondary">[[contact.phone]]</span>
+                </p>
+              </div>
+            </div>
+          </iron-grid>
+          <div class="social-bar horizontal layout center-justified">
+              <template is="dom-repeat" items="[[contact.social]]" as="social">
+                <a href="[[social.link]]" target="_blank" rel="noopener">
+                  <img src="[[social.icon]]" type="image/svg+xml" alt="[[social.name]]">
+                </a>
+              </template>
+          </div>
+        </paper-card>
+        <h1>Professional skills</h1>
+        <paper-card class="flex" id="skills-card">
+          <div class="card-content">
+            <iron-grid xs-max-width="0" s-max-width="[[smallBreakpoint]]">
+              <template is="dom-repeat" items="[[skills]]" as="skill">
+                <div class="skill s12 m6">
+                  <div class="layout horizontal justified flex">
+                    <p>[[skill.name]]</p>
+                    <p>[[skill.value]]%</p>
+                  </div>
+                  <paper-progress value="[[skill.value]]"></paper-progress>
+                </div>
+              </template>
+            </iron-grid>
+          </div>
+        </paper-card>
+        <h1>Work Experience</h1>
+        <iron-grid xs-max-width="0" s-max-width="0" m-max-width="[[mediumBreakpoint]]">
+          <template is="dom-repeat" items="[[positions]]" as="position">
+              <paper-card class$="m12 l5 [[_timelineCardPosition(position.$key)]]">
+                <div class="card-content">
+                  <h3>[[position.timeline]]</h3>
+                  <h1>[[position.company]]</h1>
+                  <h2>[[position.title]]</h2>
+                  <p>[[position.description]]</p>
+                </div>
+              </paper-card>
+          </template>
+      </iron-grid>
+      </div>
     </div>
-
-
   </template>
 
   <script>
 
     Polymer({
 
-      is: 'about-view'
+      is: 'about-view',
+
+      properties: {
+        smallBreakpoint: {
+          type: Number,
+          value: new Polymer.IronMetaQuery({key: 'smallBreakpoint'}).value
+        },
+        mediumBreakpoint: {
+          type: Number,
+          value: new Polymer.IronMetaQuery({key: 'mediumBreakpoint'}).value
+        }
+
+      },
+
+      behaviors: [
+        Polymer.IronResizableBehavior
+      ],
+
+      _calculateAge: function(){
+        return new Date().getFullYear() - new Date(1992, 2, 26).getFullYear();
+      },
+
+      _timelineCardPosition: function(index){
+        return index % 2 === 0 ? 'timeline-card-left' : 'timeline-card-right offset-l2 offset-m0'
+      }
 
     });
 
