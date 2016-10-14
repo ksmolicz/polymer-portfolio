@@ -1,6 +1,6 @@
 {
-  "name": "My App",
-  "short_name": "My App",
+  "name": "Krzysztof Smolicz Portfolio",
+  "short_name": "KS Portfolio",
     "icons": [{
       "src": "images/app-icon-32.png",
       "type": "image/png",
@@ -24,6 +24,7 @@
     }],
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#3f51b5",
-  "theme_color": "#3f51b5"
+  "background_color": "#eeeeee",
+  "theme_color": "#1976D2",
+  "orientation": "any"
 }

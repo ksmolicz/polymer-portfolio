@@ -198,7 +198,7 @@
         <div class="header-background"></div>
 
         <neon-animated-pages role="main" selected="[[page]]" attr-for-selected="name" entry-animation="fade-in-animation" exit-animation="fade-out-animation">
-          <about-view name="about"></about-view>
+          <portfolio-view name="portfolio"></portfolio-view>
           <music-view name="music"></music-view>
           <travel-view name="travel"></travel-view>
         </neon-animated-pages>
@@ -232,7 +232,7 @@
       ],
 
       _routePageChanged: function(page) {
-        this.page = page || 'about';
+        this.page = page || 'portfolio';
       },
 
       _pageChanged: function(page) {

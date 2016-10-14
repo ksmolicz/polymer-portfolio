@@ -2,8 +2,8 @@
   "entrypoint": "index.html",
   "shell": "src/my-app.html",
   "fragments": [
-    "src/views/about.html",
-    "src/views/music.html",
-    "src/views/travel.html"
+    "src/views/portfolio-view.html",
+    "src/views/music-view.html",
+    "src/views/travel-view.html"
   ]
 }

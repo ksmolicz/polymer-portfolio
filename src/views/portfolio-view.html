@@ -6,7 +6,7 @@
 <link rel="import" href="/bower_components/iron-meta/iron-meta.html">
 <link rel="import" href="../shared-styles.html">
 
-<dom-module id="about-view">
+<dom-module id="portfolio-view">
 
   <template>
 
@@ -39,6 +39,77 @@
       }
       #skills-card .card-content{
         padding: 16px 4px;
+      }
+      .timeline{
+        position: relative;
+      }
+      .timeline .card-content{
+        height: 100%
+      }
+      .timeline:before{
+        top: 0;
+        bottom: 0;
+        position: absolute;
+        content: " ";
+        width: 2px;
+        background-color: var(--app-primary);
+        left: 50%;
+        margin-left: -1px;
+        opacity: 0.35;
+      }
+      @media (min-width: 959px) {
+        .arrow{
+          width: 12px;
+          height: 41px;
+          display: block;
+          position: absolute;
+          background-image: url('/src/images/arrows.png');
+          background-repeat: no-repeat;
+        }
+        .timeline-card-right .arrow{
+          bottom: 60px;
+          left: -12px;
+          background-position: 0 0;
+        }
+        .timeline-card-left .arrow{
+          top: 60px;
+          right: -12px;
+          background-position: -18px 0;
+        }
+        .arrow:before{
+          width: 0;
+          height: 0;
+          content: '';
+          display: block;
+          border-top: 20px solid transparent;
+          border-bottom: 20px solid transparent;
+        }
+        .timeline-card-right .arrow:before{
+          margin-left: 2px;
+          border-right: 10px solid #fff;
+        }
+        .timeline-card-left .arrow:before{
+          margin-right: 2px;
+          border-left: 10px solid #fff;
+        }
+        .dot{
+          width: 8px;
+          height: 8px;
+          display: block;
+          position: absolute;
+          background-color: var(--app-primary);
+          border-radius: 50%;
+          -webkit-border-radius: 50%;
+          -moz-border-radius: 50%;
+        }
+        .timeline-card-left .dot{
+          top: 76px;
+          right: calc(-20% - 4px);
+        }
+        .timeline-card-right .dot{
+          bottom: 76px;
+          left: calc(-20% - 4px);
+        }
       }
     </style>
 
@@ -113,18 +184,22 @@
           </div>
         </paper-card>
         <h1>Work Experience</h1>
+        <div class="timeline">
         <iron-grid xs-max-width="0" s-max-width="0" m-max-width="[[mediumBreakpoint]]">
-          <template is="dom-repeat" items="[[positions]]" as="position">
-              <paper-card class$="m12 l5 [[_timelineCardPosition(position.$key)]]">
-                <div class="card-content">
-                  <h3>[[position.timeline]]</h3>
-                  <h1>[[position.company]]</h1>
-                  <h2>[[position.title]]</h2>
-                  <p>[[position.description]]</p>
-                </div>
-              </paper-card>
-          </template>
-      </iron-grid>
+            <template is="dom-repeat" items="[[positions]]" as="position">
+                <paper-card class$="m12 l5 [[_timelineCardPosition(position.$key)]]">
+                  <span class="dot"></span>
+                  <span class="arrow"></span>
+                  <div class="card-content">
+                    <h3>[[position.timeline]]</h3>
+                    <h1>[[position.company]]</h1>
+                    <h2>[[position.title]]</h2>
+                    <p>[[position.description]]</p>
+                  </div>
+                </paper-card>
+            </template>
+          </iron-grid>
+        </div>
       </div>
     </div>
   </template>
@@ -133,7 +208,7 @@
 
     Polymer({
 
-      is: 'about-view',
+      is: 'portfolio-view',
 
       properties: {
         smallBreakpoint: {
@@ -143,9 +218,21 @@
         mediumBreakpoint: {
           type: Number,
           value: new Polymer.IronMetaQuery({key: 'mediumBreakpoint'}).value
+        },
+        skills: {
+          type: Array,
+          notify: true
+        },
+        positions: {
+          type: Array,
+          notify: true
         }
-
       },
+
+      observers: [
+        '_notifyResize(skills.splices)',
+        '_notifyResize(positions.splices)'
+      ],
 
       behaviors: [
         Polymer.IronResizableBehavior
@@ -157,6 +244,10 @@
 
       _timelineCardPosition: function(index){
         return index % 2 === 0 ? 'timeline-card-left' : 'timeline-card-right offset-l2 offset-m0'
+      },
+
+      _notifyResize: function(){
+        this.async(this.notifyResize)
       }
 
     });
