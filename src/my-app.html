@@ -149,7 +149,7 @@
         data="{{contact}}">
     </firebase-document>
 
-    <app-location route="{{route}}"></app-location>
+    <app-location route="{{route}}" use-hash-as-path></app-location>
     <app-route
         route="{{route}}"
         pattern="/:page"
@@ -169,7 +169,7 @@
         <div class="drawer-list">
           <iron-selector selected="[[page]]" attr-for-selected="name" role="navigation">
             <template is="dom-repeat" items="[[navigation]]" as="menu">
-              <a name="[[menu.name]]" href="/[[menu.name]]">
+              <a name="[[menu.name]]" href="#/[[menu.name]]">
                 <iron-icon icon="[[menu.icon]]"></iron-icon>
                 <span class="paper-font-menu">[[menu.name]]</span>
               </a>
@@ -188,7 +188,7 @@
             <paper-tabs selected="[[page]]" attr-for-selected="name" hidden$="[[isMobile]]">
               <template is="dom-repeat" items="[[navigation]]" as="menu">
                   <paper-tab name="[[menu.name]]" link>
-                    <a href="/[[menu.name]]" tabindex="-1">[[menu.name]]</a>
+                    <a href="#/[[menu.name]]" tabindex="-1">[[menu.name]]</a>
                   </paper-tab>
               </template>
             </paper-tabs>
@@ -224,7 +224,7 @@
           type: String,
           reflectToAttribute: true,
           observer: '_pageChanged'
-        },
+        }
       },
 
       observers: [
@@ -244,5 +244,4 @@
     });
 
   </script>
-
 </dom-module>
