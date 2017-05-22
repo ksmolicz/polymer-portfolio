@@ -1,6 +1,6 @@
 # Polymer portfolio
 
-Simple portfolio page created using Polymer web components.
+Simple portfolio page created with just Polymer web components.
 
 For fun with love.
 Demo: https://portfolio-8d851.firebaseapp.com/
